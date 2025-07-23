@@ -49,9 +49,13 @@ public class Task implements JSONWriteable {
 
     @Override
     public String toJSON(){
-        return "{ \n\"id\": \"" + id + "\"," + "\n\"description\": \"" + description + "\"," +
-                "\n\"status\": \"" + status.getValue() + "\"," +
-                "\n\"createdAt\": \"" + createdAt + "\"," + "\n\"updatedAt\": \"" + updatedAt + "\"\n}" ;
+        return "\t\t\t{ " +
+                "\n\t\t\t\"id\": \"" + id + "\"," +
+                "\n\t\t\t\"description\": \"" + description + "\"," +
+                "\n\t\t\t\"status\": \"" + status.getValue() + "\"," +
+                "\n\t\t\t\"createdAt\": \"" + createdAt + "\"," +
+                "\n\t\t\t\"updatedAt\": \"" + updatedAt + "\"" +
+                "\n\t\t\t}" ;
     }
 
 }

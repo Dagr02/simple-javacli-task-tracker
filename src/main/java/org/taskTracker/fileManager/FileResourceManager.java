@@ -1,6 +1,10 @@
 package org.taskTracker.fileManager;
 
+import org.taskTracker.model.Task;
+
+import java.util.List;
+
 public interface FileResourceManager {
-    String load(String path);
-    void store(String path, String content);
+    String load();
+    void store(List<Task> content);
 }
