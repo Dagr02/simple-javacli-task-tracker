@@ -2,6 +2,7 @@ package org.taskTracker;
 
 import org.taskTracker.model.Status;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -11,7 +12,7 @@ public class Main {
         TaskCLIManager manager = new TaskCLIManager();
         if(args.length < 1){
             System.out.println("task-cli <command> [arguments]");
-            System.out.println("Commands: add | update | delete | mark-in-progress | mark-done | list <done | todo | in progress>");
+            System.out.println("Commands: add <description> | update <id> <description> | delete <id> | mark-in-progress <id> | mark-done <id> | list <done | todo | in progress>");
             return;
         }
 
@@ -20,29 +21,45 @@ public class Main {
         switch (command) {
             case "add":
                 if(args.length < 2){
-                    System.out.println("Invalid input. task-sli add <description>");
+                    System.out.println("Invalid input. task-cli add <description>");
                     return;
                 }
                 manager.add(args[1]);
                 break;
             case "update":
                 if(args.length < 2){
-                    System.out.println("Invalid input. task-sli update <id> <description>");
+                    System.out.println("Invalid input. task-cli update <id> <description>");
                     return;
                 }
                 manager.update(args[1],args[2]);
                 break;
             case "delete":
+                if(args.length < 2){
+                    System.out.println("Invalid input. task-cli delete <id>");
+                    return;
+                }
+                manager.delete(args[1]);
                 break;
             case "mark-in-progress":
+                if(args.length < 2){
+                    System.out.println("Invalid input. task-cli mark-in-progress <id>");
+                    return;
+                }
+                manager.markInProgress(args[1]);
                 break;
             case "mark-done":
+                if(args.length < 2){
+                    System.out.println("Invalid input. task-cli mark-done <id>");
+                    return;
+                }
+                manager.markDone(args[1]);
                 break;
             case "list":
                 if(args.length < 2){
                     manager.list();
                 }else{
-                    Status status = Status.valueOf(args[1]);
+                    String status = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                    manager.list(status);
                 }
                 break;
         }

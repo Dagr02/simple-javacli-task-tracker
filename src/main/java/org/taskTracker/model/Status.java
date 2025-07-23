@@ -15,4 +15,23 @@ public enum Status {
         return value;
     }
 
+    public static boolean exists(String value){
+        try {
+            fromValue(value);
+            return true;
+        } catch (IllegalArgumentException e){
+            return false;
+        }
+    }
+
+
+    public static Status fromValue(String value){
+        for(Status status : values()){
+            if(status.getValue().equalsIgnoreCase(value)){
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant with value " + value);
+    }
+
 }

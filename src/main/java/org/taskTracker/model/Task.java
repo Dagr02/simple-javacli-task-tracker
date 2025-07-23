@@ -43,7 +43,7 @@ public class Task implements JSONWriteable{
     }
 
     public void setStatus(String status){
-        this.status = Status.valueOf(status);
+        this.status = Status.fromValue(status);
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -68,7 +68,7 @@ public class Task implements JSONWriteable{
         String createdAtStr = cleanFieldAndReturnValueString(JSONArray[3], true);
         String updatedAtStr = cleanFieldAndReturnValueString(JSONArray[4], true);
 
-        Status status = Status.valueOf(statusVal.toUpperCase());
+        Status status = Status.fromValue(statusVal);
 
         Task task = new Task(description);
         task.id = Integer.parseInt(id);
