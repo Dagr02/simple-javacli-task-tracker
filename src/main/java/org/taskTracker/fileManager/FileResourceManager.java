@@ -5,6 +5,6 @@ import org.taskTracker.model.Task;
 import java.util.List;
 
 public interface FileResourceManager {
-    String load();
+    List<Task> load();
     void store(List<Task> content);
 }

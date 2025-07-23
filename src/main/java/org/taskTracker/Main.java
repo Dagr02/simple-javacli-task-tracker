@@ -40,7 +40,7 @@ public class Main {
                 break;
             case "list":
                 if(args.length < 2){
-
+                    manager.list();
                 }else{
                     Status status = Status.valueOf(args[1]);
                 }

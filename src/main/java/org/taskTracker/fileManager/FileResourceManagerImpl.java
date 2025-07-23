@@ -2,9 +2,8 @@ package org.taskTracker.fileManager;
 
 import org.taskTracker.model.Task;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,30 @@ public class FileResourceManagerImpl implements FileResourceManager{
     private final Path FILE_PATH = Path.of("tasks.json");
 
     @Override
-    public String load(){
+    public List<Task> load(){
         List<Task> taskHistory = new ArrayList<>();
 
-        return "";
+        try{
+            String file = Files.readString(FILE_PATH);
+            String[] taskList = file
+                    .replace("\"Tasks\":","")
+                    .replace("[", "")
+                    .replace("]","")
+                    .strip()
+                    .split("},");
+
+            for(String task : taskList){
+                if(!task.endsWith("}")){
+                    task += "}";
+                }
+                taskHistory.add(Task.fromJSON(task));
+            }
+
+        }catch (IOException e){
+            throw new RuntimeException("Oops error reading file");
+        }
+
+        return taskHistory;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.taskTracker;
 
 import org.taskTracker.fileManager.FileResourceManagerImpl;
-import org.taskTracker.fileManager.JSONReader;
 import org.taskTracker.model.Task;
 
 import java.util.ArrayList;
@@ -10,17 +9,15 @@ import java.util.List;
 public class TaskCLIManager {
     private List<Task> tasks;
     private FileResourceManagerImpl fileResourceManager;
-    private JSONReader jsonReader;
 
     public TaskCLIManager(){
         this.tasks = new ArrayList<>();
         this.fileResourceManager = new FileResourceManagerImpl();
-        this.jsonReader = new JSONReader();
         init();
     }
 
     private void init(){
-        //load file if exists.
+        this.tasks = fileResourceManager.load();
     }
 
     public void add(String description){
@@ -33,8 +30,13 @@ public class TaskCLIManager {
 
     }
 
+    public void list(){
+        for(Task task : tasks){
+            System.out.println(task.toString());
+        }
+    }
+
     public void save(){
-        System.out.println("File saved");
         fileResourceManager.store(tasks);
     }
 

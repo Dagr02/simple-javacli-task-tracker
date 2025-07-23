@@ -5,7 +5,7 @@ import org.taskTracker.fileManager.JSONWriteable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Task implements JSONWriteable {
+public class Task implements JSONWriteable{
     private static int prevId = 0;
     private int id;
     private String description;
@@ -56,6 +56,54 @@ public class Task implements JSONWriteable {
                 "\n\t\t\t\"createdAt\": \"" + createdAt + "\"," +
                 "\n\t\t\t\"updatedAt\": \"" + updatedAt + "\"" +
                 "\n\t\t\t}" ;
+    }
+
+    public static Task fromJSON(String JSONString){
+        JSONString = cleanJSON(JSONString);
+        String[] JSONArray = JSONString.split(",");
+
+        String id = cleanFieldAndReturnValueString(JSONArray[0], false);
+        String description = cleanFieldAndReturnValueString(JSONArray[1], false);
+        String statusVal = cleanFieldAndReturnValueString(JSONArray[2], false);
+        String createdAtStr = cleanFieldAndReturnValueString(JSONArray[3], true);
+        String updatedAtStr = cleanFieldAndReturnValueString(JSONArray[4], true);
+
+        Status status = Status.valueOf(statusVal.toUpperCase());
+
+        Task task = new Task(description);
+        task.id = Integer.parseInt(id);
+        task.status = status;
+        task.createdAt = LocalDateTime.parse(createdAtStr, dateFormatter);
+        task.updatedAt = LocalDateTime.parse(updatedAtStr, dateFormatter);
+
+        return task;
+    }
+
+    private static String cleanJSON(String JSONString){
+        JSONString = JSONString
+                .replace("{", "")
+                .replace("}","")
+                .replace("\"","")
+                .replace("\t","")
+                .replace("\n","");
+        return JSONString;
+    }
+
+    private static String cleanFieldAndReturnValueString(String field, boolean date){
+        if(date){
+            return field.split("[a-z]:")[1].strip();
+        };
+        return field.split(":")[1].strip();
+    }
+
+    @Override
+    public String toString(){
+        return "\"id\": \"" + id + "\", " +
+                "\"description\": \"" + description + "\", " +
+                "\"status\": \"" + status.getValue() + "\", " +
+                "\"createdAt\": \"" + createdAt + "\", " +
+                "\"updatedAt\": \"" + updatedAt + "\"" +
+                "\n";
     }
 
 }
